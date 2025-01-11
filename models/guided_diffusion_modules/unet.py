@@ -416,13 +416,14 @@ class UNet(nn.Module):
                 ch = int(mult * inner_channel)
                 if ds in attn_res:
                     layers.append(
-                        AttentionBlock(
-                            ch,
-                            use_checkpoint=use_checkpoint,
-                            num_heads=num_heads,
-                            num_head_channels=num_head_channels,
-                            use_new_attention_order=use_new_attention_order,
-                        )
+                        # AttentionBlock(
+                        #     ch,
+                        #     use_checkpoint=use_checkpoint,
+                        #     num_heads=num_heads,
+                        #     num_head_channels=num_head_channels,
+                        #     use_new_attention_order=use_new_attention_order,
+                        # )
+                        Star_Block(ch)
                     )
                 self.input_blocks.append(EmbedSequential(*layers))
                 self._feature_size += ch
@@ -459,15 +460,15 @@ class UNet(nn.Module):
                 use_checkpoint=use_checkpoint,
                 use_scale_shift_norm=use_scale_shift_norm,
             ),
-            # AttentionBlock(
-            #     ch,
-            #     use_checkpoint=use_checkpoint,
-            #     num_heads=num_heads,
-            #     num_head_channels=num_head_channels,
-            #     use_new_attention_order=use_new_attention_order,
-            # ),
+            AttentionBlock(
+                ch,
+                use_checkpoint=use_checkpoint,
+                num_heads=num_heads,
+                num_head_channels=num_head_channels,
+                use_new_attention_order=use_new_attention_order,
+            ),
 
-            Star_Block(ch),
+            # Star_Block(ch),
 
             ResBlock(
                 ch,
@@ -496,13 +497,14 @@ class UNet(nn.Module):
                 ch = int(inner_channel * mult)
                 if ds in attn_res:
                     layers.append(
-                        AttentionBlock(
-                            ch,
-                            use_checkpoint=use_checkpoint,
-                            num_heads=num_heads_upsample,
-                            num_head_channels=num_head_channels,
-                            use_new_attention_order=use_new_attention_order,
-                        )
+                        # AttentionBlock(
+                        #     ch,
+                        #     use_checkpoint=use_checkpoint,
+                        #     num_heads=num_heads_upsample,
+                        #     num_head_channels=num_head_channels,
+                        #     use_new_attention_order=use_new_attention_order,
+                        # )
+                        Star_Block(ch)
                     )
                 if level and i == res_blocks:
                     out_ch = ch
